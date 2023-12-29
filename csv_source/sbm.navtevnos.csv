@@ -1,0 +1,73 @@
+_id,Expozícia,Rok,Mesiac,Návštevnosť,Tržby,Školáci,Cudzinci,Zdarma
+1,Banské múzeum v prírode,2021,1,0,0,0,0,0
+2,Nový zámok,2021,1,0,0,0,0,0
+3,Starý zámok,2021,1,0,0,0,0,0
+4,Kammerhof-Baníctvo na Slovensku,2021,1,0,0,0,0,0
+5,Berggericht-Mineralogická expozícia,2021,1,0,0,0,0,0
+6,Galéria Jozefa Kollára,2021,1,0,0,0,0,0
+7,Glanzenberg štôlňa,2021,1,0,0,0,0,0
+8,Michal štôlňa,2021,1,0,0,0,0,0
+9,Handlová,2021,1,0,0,0,0,0
+10,Banské múzeum v prírode,2021,2,0,0,0,0,0
+11,Nový zámok,2021,2,0,0,0,0,0
+12,Starý zámok,2021,2,0,0,0,0,0
+13,Kammerhof-Baníctvo na Slovensku,2021,2,0,0,0,0,0
+14,Berggericht-Mineralogická expozícia,2021,2,0,0,0,0,0
+15,Galéria Jozefa Kollára,2021,2,0,0,0,0,0
+16,Glanzenberg štôlňa,2021,2,0,0,0,0,0
+17,Michal štôlňa,2021,2,0,0,0,0,0
+18,Handlová,2021,2,0,0,0,0,0
+19,Banské múzeum v prírode,2021,3,0,0,0,0,0
+20,Nový zámok,2021,3,0,0,0,0,0
+21,Starý zámok,2021,3,0,0,0,0,0
+22,Kammerhof-Baníctvo na Slovensku,2021,3,0,0,0,0,0
+23,Berggericht-Mineralogická expozícia,2021,3,0,0,0,0,0
+24,Galéria Jozefa Kollára,2021,3,0,0,0,0,0
+25,Glanzenberg štôlňa,2021,3,0,0,0,0,0
+26,Michal štôlňa,2021,3,0,0,0,0,0
+27,Handlová,2021,3,0,0,0,0,0
+28,Banské múzeum v prírode,2021,4,181,1004,0,6,16
+29,Nový zámok,2021,4,128,"297,5",0,0,9
+30,Starý zámok,2021,4,155,722,0,10,10
+31,Kammerhof-Baníctvo na Slovensku,2021,4,41,108,0,0,0
+32,Berggericht-Mineralogická expozícia,2021,4,38,91,0,0,3
+33,Galéria Jozefa Kollára,2021,4,19,44,0,0,4
+34,Glanzenberg štôlňa,2021,4,0,0,0,0,0
+35,Michal štôlňa,2021,4,72,36,0,0,0
+36,Handlová,2021,4,0,0,0,0,0
+37,Banské múzeum v prírode,2021,5,1270,7855,37,13,86
+38,Nový zámok,2021,5,1009,"2341,5",0,29,26
+39,Starý zámok,2021,5,1316,"6062,5",0,80,61
+40,Kammerhof-Baníctvo na Slovensku,2021,5,248,607,0,4,9
+41,Berggericht-Mineralogická expozícia,2021,5,272,633,0,0,14
+42,Galéria Jozefa Kollára,2021,5,165,301,0,0,30
+43,Glanzenberg štôlňa,2021,5,193,1176,0,0,0
+44,Michal štôlňa,2021,5,515,243,0,0,29
+45,Handlová,2021,5,21,"34,5",4,0,3
+46,Banské múzeum v prírode,2021,6,2628,14626,393,26,317
+47,Nový zámok,2021,6,1500,"2816,5",125,38,260
+48,Starý zámok,2021,6,2085,8342,80,121,72
+49,Kammerhof-Baníctvo na Slovensku,2021,6,299,607,0,1,46
+50,Berggericht-Mineralogická expozícia,2021,6,295,569,0,0,71
+51,Galéria Jozefa Kollára,2021,6,182,266,0,3,75
+52,Glanzenberg štôlňa,2021,6,202,1166,0,0,16
+53,Michal štôlňa,2021,6,793,"356,5",0,0,80
+54,Handlová,2021,6,68,"105,5",46,10,3
+55,Banské múzeum v prírode,2021,7,9628,58477,351,203,476
+56,Nový zámok,2021,7,5774,"12632,5",41,70,196
+57,Starý zámok,2021,7,7820,"33989,5",0,399,268
+58,Kammerhof-Baníctvo na Slovensku,2021,7,1334,3016,0,23,48
+59,Berggericht-Mineralogická expozícia,2021,7,1462,3214,142,12,55
+60,Galéria Jozefa Kollára,2021,7,573,1194,0,3,92
+61,Glanzenberg štôlňa,2021,7,654,4012,0,16,3
+62,Michal štôlňa,2021,7,2778,1300,0,17,178
+63,Handlová,2021,7,155,"258,5",69,6,9
+64,Banské múzeum v prírode,2021,8,11847,71292,150,447,629
+65,Nový zámok,2021,8,6153,13516,0,367,220
+66,Starý zámok,2021,8,9780,"43373,5",30,655,230
+67,Kammerhof-Baníctvo na Slovensku,2021,8,1720,5496,0,70,22
+68,Berggericht-Mineralogická expozícia,2021,8,1770,3866,91,0,78
+69,Galéria Jozefa Kollára,2021,8,763,2345,22,13,31
+70,Glanzenberg štôlňa,2021,8,526,3190,0,7,8
+71,Michal štôlňa,2021,8,3149,1495,0,0,159
+72,Handlová,2021,8,398,527,285,1,23
