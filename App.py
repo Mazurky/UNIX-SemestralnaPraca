@@ -1,5 +1,5 @@
-from Menu import Menu
 import tkinter as tk
+from Menu import Menu
 
 
 class App:

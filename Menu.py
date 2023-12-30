@@ -1,6 +1,9 @@
 import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
+from tkinter import messagebox, ttk
 import pandas as pd
+from FileHandler import FileHandler
+from CSVHandler import CSVHandler
+from custom_functions import resize_window
 
 
 class Menu:
@@ -11,16 +14,16 @@ class Menu:
         self.header = tk.Frame(self.main)
         self.header.configure(height=200, padx=40)
 
-        self.title = ttk.Label(self.header)
-        self.title.configure(cursor="arrow", text='CSV Viewer', font=("TkDefaultFont", 20, 'bold'))
-        self.title.pack(expand=True, pady=4, side="top")
+        self.header_title = ttk.Label(self.header)
+        self.header_title.configure(cursor="arrow", text='CSV Viewer', font=("TkDefaultFont", 20, 'bold'))
+        self.header_title.pack(expand=True, pady=4, side="top")
 
         self.header.grid(column=0, row=0, sticky="n")
 
         self.buttons = ttk.Frame(self.main)
         self.buttons.configure(height=200, width=200)
 
-        self.open_file_button = ttk.Button(self.buttons, command=self.load_file)
+        self.open_file_button = ttk.Button(self.buttons, command=lambda: self.load_file(ask_path=False))
         self.open_file_button.configure(cursor="hand2", text='Open file', width=18)
         self.open_file_button.pack(pady=2, side="top")
 
@@ -46,7 +49,7 @@ class Menu:
 
         self.main.pack(anchor="center", side="top")
         self.main.grid_anchor("n")
-        self.resize_window(master)
+        resize_window(master)
         self.data = None
 
     def hide_buttons(self):
@@ -57,21 +60,18 @@ class Menu:
         self.selected_file_text.pack_forget()
         self.change_file_button.pack_forget()
 
-    @staticmethod
-    def resize_window(window_name):
-        window_name.update_idletasks()
-        req_width = window_name.winfo_reqwidth()
-        req_height = window_name.winfo_reqheight() + 10
-        window_name.geometry(f"{req_width}x{req_height}")
+    def load_file(self, ask_path=True):
+        if ask_path:
+            file_path = self.ask_file_or_url()
+        else:
+            file_path = "D:\\instadelete\\commodity-price-index-cereal-crops-and-petroleum.csv"
 
-    def load_file(self):
-        file_path = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
         if file_path:
             self.data = pd.read_csv(file_path)
             if self.data is not None:
                 self.hide_buttons()
                 self.selected_file_text.configure(text="File: " + file_path)
-                self.selected_file_text.pack(pady=2, side="top")
+                self.selected_file_text.pack(pady=2, padx=8, side="top")
 
                 self.change_file_button.pack(pady=2, side="top")
 
@@ -79,37 +79,23 @@ class Menu:
                 self.show_graph_button.pack(pady=2, side="top")
 
                 self.quit_button.pack(pady=2, side="top")
-                self.resize_window(self.master)
+                resize_window(self.master)
+
+    def ask_file_or_url(self):
+        dialog = FileHandler(self.master)
+        self.master.wait_window(dialog)
+        result = dialog.result
+        dialog.destroy()
+        return result
 
     def display_csv_data(self):
-        top = None
         try:
             if self.data is not None:
-                top = tk.Toplevel(self.master)
-                top.title("CSV Data")
-
-                tree = ttk.Treeview(top, show="headings")
-
-                tree["columns"] = list(self.data.columns)
-                for col in list(self.data.columns):
-                    tree.heading(col, text=col)
-                    tree.column(col, width=100)
-
-                for row in self.data.itertuples(index=False):
-                    tree.insert("", "end", values=row)
-
-                vscroll = ttk.Scrollbar(top, orient="vertical", command=tree.yview)
-                tree.configure(yscrollcommand=vscroll.set)
-
-                tree.pack(padx=20, pady=20, fill="both", expand=True, side="left")
-                vscroll.pack(side="right", fill="y")
-
-                self.resize_window(top)
+                CSVHandler(self.master, self.data)
             else:
                 messagebox.showerror("Error", "File not loaded")
         except Exception as e:
             messagebox.showerror("Error", str(e))
-            top.destroy()
 
     def show_graph(self):
         # TODO: show graph
