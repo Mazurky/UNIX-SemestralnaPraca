@@ -5,23 +5,15 @@ from custom_functions import resize_window
 
 
 class CSVHandler:
-    def __init__(self, parent, data):
-        """
-        :type parent: tk.Tk parent window
-        :type data: pd.DataFrame
-        :return: None
-        """
+    def __init__(self, master, data):
         self.data = data
-        self.settings_menu(parent)
+        self.settings_menu(master)
 
     def settings_menu(self, parent):
-        """
-        Opens settings menu for given data
-        """
         top = None
         try:
             top = tk.Toplevel(parent)
-            top.title("Settings")
+            top.title("CSV settings")
             csv_columns = list(self.data.columns)
 
             text = ttk.Label(top)
@@ -56,11 +48,6 @@ class CSVHandler:
                 top.destroy()
 
     def display_csv_data(self, parent, columns_to_show=None):
-        """
-        Displays CSV data in a new window
-        :param parent: tk.Tk parent window
-        :param columns_to_show: list of columns to show
-        """
         top = None
         try:
             top = tk.Toplevel(parent)
