@@ -1,8 +1,10 @@
+from os import path
 import tkinter as tk
 from tkinter import messagebox, ttk
 import pandas as pd
 from FileHandler import FileHandler
 from CSVHandler import CSVHandler
+from GraphHandler import GraphHandler
 from custom_functions import resize_window
 
 
@@ -37,7 +39,7 @@ class Menu:
         self.display_csv_button.configure(cursor="hand2", text='Show CSV', width=18)
         # self.display_csv_button.pack(pady=2, side="top")
 
-        self.show_graph_button = ttk.Button(self.buttons, command=self.show_graph)
+        self.show_graph_button = ttk.Button(self.buttons, command=self.display_graph)
         self.show_graph_button.configure(cursor="hand2", text='Show graph', width=18)
         # self.show_graph_button.pack(pady=2, side="top")
 
@@ -70,7 +72,8 @@ class Menu:
             self.data = pd.read_csv(file_path)
             if self.data is not None:
                 self.hide_buttons()
-                self.selected_file_text.configure(text="File: " + file_path)
+                file_name = path.basename(file_path)
+                self.selected_file_text.configure(text="File: " + file_name)
                 self.selected_file_text.pack(pady=2, padx=8, side="top")
 
                 self.change_file_button.pack(pady=2, side="top")
@@ -97,6 +100,11 @@ class Menu:
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
-    def show_graph(self):
-        # TODO: show graph
-        pass
+    def display_graph(self):
+        try:
+            if self.data is not None:
+                GraphHandler(self.master, self.data)
+            else:
+                messagebox.showerror("Error", "File not loaded")
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
