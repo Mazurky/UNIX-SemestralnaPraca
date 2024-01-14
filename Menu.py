@@ -1,8 +1,6 @@
 from os import path
-import urllib.request
 import tkinter as tk
 from tkinter import messagebox, ttk, filedialog
-import pandas as pd
 from FileHandler import FileHandler
 from CSVHandler import CSVHandler
 from GraphHandler import GraphHandler
@@ -74,30 +72,17 @@ class Menu:
         self.save_to_csv_button.pack_forget()
 
     def load_file(self, open_file=False):
-
-        # TODO: refactor to FileHandler class
         try:
-            file = self.ask_file_or_url(open_file)
-
-            if file is None:
-                return
-            file_source = file[0]
-            file_type = file[1]
-            file_path = file[2]
-            if file_source == "url" and file_type == "database":
-                if self.download_file(file_path):
-                    messagebox.showinfo("Success", "File downloaded successfully. Open downloaded file.")
-                    self.load_file(open_file=True)
-                else:
-                    messagebox.showerror("Error", "File download failed")
-            elif (file_source == "file" or file_source == "url") and file_type == "csv":
-                self.data = pd.read_csv(file_path)
-                self.data_loaded(file_path)
-            elif file_source == "file" and file_type == "database":
-                self.data = DBHandler(self.master, file_path).open_database()
-                self.data_loaded(file_path)
+            if open_file:
+                dialog = FileHandler(self.master).find_local_file()
             else:
-                messagebox.showerror("Error", "File not loaded")
+                dialog = FileHandler(self.master)
+
+            self.master.wait_window(dialog)
+            result = dialog.result
+            dialog.destroy()
+            self.data = result
+            self.data_loaded(dialog.file_path)
 
         except Exception as e:
             messagebox.showerror("Error", str(e))
@@ -121,21 +106,6 @@ class Menu:
 
             self.quit_button.pack(pady=2, side="top")
             resize_window(self.master)
-
-    def ask_file_or_url(self, open_file):
-        try:
-            if open_file:
-                dialog = FileHandler(self.master).find_local_file()
-            else:
-                dialog = FileHandler(self.master)
-
-            self.master.wait_window(dialog)
-            result = dialog.result
-            dialog.destroy()
-            return result
-        except Exception as e:
-            messagebox.showerror("Error", str(e))
-            return None
 
     def display_csv_data(self):
         try:
@@ -164,10 +134,3 @@ class Menu:
 
     def save_to_csv(self):
         DataViewer(self.data).save_to_csv()
-
-    @staticmethod
-    def download_file(url):
-        file_name = url.split("/")[-1]
-        file_path = path.abspath("db_source/" + file_name)
-        urllib.request.urlretrieve(url, file_path)
-        return True
