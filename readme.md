@@ -1,30 +1,32 @@
-# CSV Viewer
+# Data Viewer
 
-CSV Viewer je jednoduchá aplikácia vytvorená v pogramovacom jazyku Python. Táto aplikácia umožňuje načítať a vizualizovať dáta zo súboru typu CSV.
+Data Viewer je aplikácia vytvorená v pogramovacom jazyku Python. Aplikácia umožňuje načítať a vizualizovať dáta zo súboru typu *csv* alebo *sqlite*.
 
 
 ## Funkcie
 
-- **Načítanie súboru:** Aplikácia umožňuje načítať dáta zo súboru CSV alebo zadať URL adresu ku súboru.
-- **Zobrazenie dát v tabuľke:** Po načítaní súboru je možné zobraziť dáta v tabuľke s možnosťou výberu stĺpcov.
-- **Grafické zobrazenie:** WIP
+- **Načítanie súboru:** Načítanie súboru typu *csv* alebo *sqlite* z lokálneho uložiska alebo zo servera.
+- **Zobrazenie dát v tabuľke:** Zobrazenie dát v tabuľke s možnosťou výberu jednotlivých stĺpcov.
+- **Grafické zobrazenie:** Zobrazenie dát v grafe typov *line*, *bar* alebo *scatter*.
+- **Konvertovanie dát:** Konvertovanie dát do formátu *csv* alebo *sqlite*.
 
 
 ## Spustenie aplikácie
-
-1. Stiahnite si kód z tohto repozitára.
+1. Stiahnutie potrebných knižníc pomocou príkazu: `pip install tkinter pandas matplotlib urllib`.
+2. Stiahnite si kód z repozitára alebo stiahnite DataViewer.exe.
 
     `
-      git clone https://link
+      git clone https://link-repozitara
     `
 
-2. Otvorte terminál v priečinku so stiahnutým kódom.
-3. Spustite aplikáciu pomocou príkazu: `python App.py`
+3. Otvorte terminál v priečinku so stiahnutým kódom.
+4. Spustite aplikáciu pomocou príkazu: `python App.py` alebo spustite DataViewer.exe.
 
 
 ## Požiadavky
 
-- Python 3.x
+- Python 3
 - tkinter
 - pandas
 - matplotlib
+- urllib
