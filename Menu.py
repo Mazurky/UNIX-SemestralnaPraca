@@ -1,11 +1,9 @@
-from os import path
 import tkinter as tk
-from tkinter import messagebox, ttk, filedialog
+from tkinter import messagebox, ttk
+from os import path
 from FileHandler import FileHandler
-from CSVHandler import CSVHandler
+from DataHandler import DataHandler
 from GraphHandler import GraphHandler
-from DBHandler import DBHandler
-from DataViewer import DataViewer
 from custom_functions import resize_window
 
 
@@ -18,7 +16,7 @@ class Menu:
         self.header.configure(height=200, padx=40)
 
         self.header_title = ttk.Label(self.header)
-        self.header_title.configure(cursor="arrow", text='CSV Viewer', font=("TkDefaultFont", 20, 'bold'))
+        self.header_title.configure(cursor="arrow", text='Data Viewer', font=("TkDefaultFont", 20, 'bold'))
         self.header_title.pack(expand=True, pady=4, side="top")
 
         self.header.grid(column=0, row=0, sticky="n")
@@ -81,6 +79,8 @@ class Menu:
             self.master.wait_window(dialog)
             result = dialog.result
             dialog.destroy()
+            if result is None:
+                return
             self.data = result
             self.data_loaded(dialog.file_path)
 
@@ -109,28 +109,18 @@ class Menu:
 
     def display_csv_data(self):
         try:
-            CSVHandler(self.master, self.data)
+            DataHandler(self.master, self.data)
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
     def display_graph(self):
         try:
-            if self.data is not None:
-                GraphHandler(self.master, self.data)
-            else:
-                messagebox.showerror("Error", "File not loaded")
+            GraphHandler(self.master, self.data)
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
     def save_to_database(self):
-        try:
-            file_path = filedialog.asksaveasfilename(defaultextension=".sqlite", filetypes=[("Database Files", "*.sqlite")])
-            if file_path:
-                DataViewer(self.data).save_to_db(DBHandler(self.master, file_path).get_conn())
-            else:
-                return
-        except Exception as e:
-            messagebox.showerror("Error", str(e))
+        FileHandler.save_to_db(self.data)
 
     def save_to_csv(self):
-        DataViewer(self.data).save_to_csv()
+        FileHandler.save_to_csv(self.data)
