@@ -1,10 +1,7 @@
-from tkinter import ttk, filedialog, simpledialog, messagebox
-import tkinter as tk
-from os import path
 import urllib.request
-
+import tkinter as tk
 import pandas as pd
-
+from tkinter import ttk, filedialog, simpledialog, messagebox
 from DBHandler import DBHandler
 
 
@@ -12,7 +9,6 @@ class FileHandler(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
         self.result = None
-        self.file_type = None
         self.file_path = None
         self.title("Choose File or URL")
         self.resizable(False, False)
@@ -33,12 +29,12 @@ class FileHandler(tk.Toplevel):
         if file_path is None:
             return
         if file_path.endswith(".csv"):
-            self.file_type = "csv"
+            file_type = "csv"
         elif file_path.endswith(".sqlite"):
-            self.file_type = "database"
+            file_type = "database"
         else:
             return
-        self.get_data(["file", self.file_type, file_path])
+        self.get_data(["file", file_type, file_path])
         self.destroy()
 
     def enter_url(self):
@@ -46,13 +42,13 @@ class FileHandler(tk.Toplevel):
         if url is None:
             return
         if url.endswith(".csv"):
-            self.file_type = "csv"
+            file_type = "csv"
         elif url.endswith(".sqlite"):
-            self.file_type = "database"
+            file_type = "database"
         else:
             messagebox.showerror("Error", "Invalid URL")
             return
-        self.get_data(["url", self.file_type, url])
+        self.get_data(["url", file_type, url])
         self.destroy()
 
     def get_data(self, file_metadata):
@@ -64,14 +60,17 @@ class FileHandler(tk.Toplevel):
             file_path = file_metadata[2]
             self.file_path = file_path
             if file_source == "url" and file_type == "database":
-                if self.download_file(file_path):
-                    messagebox.showinfo("Success", "File downloaded successfully. Open downloaded file.")
+                download_result = self.download_file(file_path)
+                if download_result[0]:
+                    db_handler = DBHandler(download_result[1])
+                    self.result = db_handler.open_database()
                 else:
                     messagebox.showerror("Error", "File download failed")
             elif (file_source == "file" or file_source == "url") and file_type == "csv":
                 self.result = pd.read_csv(file_path)
             elif file_source == "file" and file_type == "database":
-                self.result = DBHandler(self.master, file_path).open_database()
+                db_handler = DBHandler(file_path)
+                self.result = db_handler.open_database()
             else:
                 messagebox.showerror("Error", "File not loaded")
 
@@ -80,7 +79,48 @@ class FileHandler(tk.Toplevel):
 
     @staticmethod
     def download_file(url):
-        file_name = url.split("/")[-1]
-        file_path = path.abspath("files/" + file_name)
-        urllib.request.urlretrieve(url, file_path)
-        return True
+        try:
+            file_path = filedialog.asksaveasfilename(defaultextension=".sqlite", filetypes=[("Database Files", "*.sqlite")])
+            if file_path is None:
+                return [False, ""]
+            urllib.request.urlretrieve(url, file_path)
+            return [True, file_path]
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+            return [False, ""]
+
+    @staticmethod
+    def save_to_csv(data):
+        try:
+            file_path = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV Files", "*.csv")])
+            if file_path:
+                data.to_csv(file_path, index=False, encoding="utf-16")
+                messagebox.showinfo("Success", "Data saved to csv")
+            else:
+                return
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+
+    @staticmethod
+    def save_to_db(data):
+        try:
+            while True:
+                file_path = filedialog.asksaveasfilename(defaultextension=".sqlite", filetypes=[("Database Files", "*.sqlite")])
+                db_handler = DBHandler(file_path)
+                table_name = simpledialog.askstring("Enter table name", "Enter table name")
+                if table_name is None:
+                    return  # cancel pressed
+
+                cursor = db_handler.get_conn().cursor()
+                cursor.execute(f"SELECT name FROM sqlite_master WHERE type='table' AND name='{table_name}'")
+                existing_table = cursor.fetchone()
+
+                if existing_table:
+                    messagebox.showerror("Error", f"Table '{table_name}' already exists. Please choose another name.")
+                else:
+                    data.to_sql(table_name, db_handler.get_conn(), if_exists="fail", index=False)
+                    messagebox.showinfo("Success", "Data saved to database")
+                    db_handler.close_conn()
+                    break
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
